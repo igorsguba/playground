@@ -1,0 +1,5 @@
+.idea/
+.vagrant/
+.private/
+vendor/
+go.sum

@@ -1,0 +1,13 @@
+- name: Deploy Producer chart from local path
+  community.kubernetes.helm:
+    name: producer
+    chart_ref: /vagrant/helm/producer
+    release_namespace: applications
+    create_namespace: true
+
+- name: Deploy Consumer chart from local path
+  community.kubernetes.helm:
+    name: consumer
+    chart_ref: /vagrant/helm/consumer
+    release_namespace: applications
+    create_namespace: true

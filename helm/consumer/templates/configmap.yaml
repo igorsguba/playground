@@ -1,0 +1,11 @@
+{{- $fullName := include "consumer.fullname" . -}}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ $fullName }}-configmap
+data:
+  KAFKA_BROKER_LIST: "playground-kafka-cluster-kafka-bootstrap.kafka.svc.cluster.local:9092"
+  KAFKA_CONSUMER_TOPIC: "input"
+  KAFKA_CONSUMER_MESSAGE_COUNT_START: "1"
+  KAFKA_PRODUCER_TOPIC: "output"
+  KAFKA_PRODUCER_MAX_RETRY: "5"

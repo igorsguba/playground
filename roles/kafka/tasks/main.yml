@@ -1,0 +1,19 @@
+- name: Add "strimzi" helm repository
+  community.kubernetes.helm_repository:
+    name: strimzi
+    repo_url: https://strimzi.io/charts/
+
+- name: Create "kafka" namespace and deploy latest version of "strimzi-kafka-operator" inside it
+  community.kubernetes.helm:
+    name: strimzi
+    chart_ref: strimzi/strimzi-kafka-operator
+    release_namespace: kafka
+    create_namespace: true
+
+- name: Create a simple Kafka cluster
+  become: false
+  shell: kubectl apply -f /vagrant/roles/kafka/files/kafka-cluster.yaml -n kafka
+
+- name: Create topics
+  become: false
+  shell: kubectl apply -f /vagrant/roles/kafka/files/kafka-topic.yaml -n kafka

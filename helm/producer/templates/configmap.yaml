@@ -1,0 +1,9 @@
+{{- $fullName := include "producer.fullname" . -}}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ $fullName }}-configmap
+data:
+  KAFKA_BROKER_LIST: "playground-kafka-cluster-kafka-bootstrap.kafka.svc.cluster.local:9092"
+  KAFKA_TOPIC: "input"
+  KAFKA_MAX_RETRY: "1"

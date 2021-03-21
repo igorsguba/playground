@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    meta.helm.sh/release-name: prometheus-stack
+    meta.helm.sh/release-namespace: monitoring
+  labels:
+    app.kubernetes.io/instance: prometheus-stack
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/version: 7.4.2
+    helm.sh/chart: grafana-6.4.5
+  name: prometheus-stack-grafana-ext
+  namespace: monitoring
+spec:
+  clusterIP:
+  clusterIPs:
+  ports:
+  - name: service
+    port: 80
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app.kubernetes.io/instance: prometheus-stack
+    app.kubernetes.io/name: grafana
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}

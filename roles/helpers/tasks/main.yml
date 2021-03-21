@@ -1,0 +1,19 @@
+- name: Prepare community.kubernetes ansible-galaxy collection
+  become: false
+  shell: ansible-galaxy collection install community.kubernetes
+
+- name: Enable minikube metallb
+  become: false
+  shell: minikube addons enable metallb
+
+- name: Configure minikube metallb
+  become: false
+  shell: kubectl apply -f /vagrant/roles/helpers/files/metallb-config.yaml -n metallb-system
+
+- name: Fix networking issue for internal DNS names
+  become: true
+  shell: ip link set docker0 promisc on
+
+- name: Start minikube tunnel
+  become: false
+  shell: minikube tunnel &

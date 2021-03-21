@@ -1,0 +1,23 @@
+- name: Add "prometheus-community" helm repository
+  community.kubernetes.helm_repository:
+    name: prometheus-community
+    repo_url: https://prometheus-community.github.io/helm-charts
+
+- name: Create "kafka" namespace and deploy latest version of "kube-prometheus-stack" inside it
+  community.kubernetes.helm:
+    name: prometheus-stack
+    chart_ref: prometheus-community/kube-prometheus-stack
+    release_namespace: monitoring
+    create_namespace: true
+
+- name: Create Kafka-related ServiceMonitor resource
+  become: false
+  shell: kubectl apply -f /vagrant/roles/monitoring/files/strimzi-service-monitor.yaml -n monitoring
+
+- name: Create external service for Grafana
+  become: false
+  shell: kubectl apply -f /vagrant/roles/monitoring/files/prometheus-stack-grafana-svc-ext.yaml -n monitoring
+
+- name: Create external service for Prometheus
+  become: false
+  shell: kubectl apply -f /vagrant/roles/monitoring/files/prometheus-stack-kube-prom-prometheus-svc-ext.yaml -n monitoring
